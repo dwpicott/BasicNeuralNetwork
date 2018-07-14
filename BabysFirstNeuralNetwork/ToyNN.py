@@ -29,7 +29,7 @@ class ToyNN(object):
         return x * (1 - x)
 
     # Forward propogation of inputs to outputs
-    def ForwardPropogation(self, input):
+    def FeedForward(self, input):
         return self.Activation(np.dot(input, self.synapseWeights));
 
     # Training function
@@ -40,7 +40,7 @@ class ToyNN(object):
         for iter in  range(iterations):
             
             #Forward propogation
-            l1 = self.ForwardPropogation(l0) #output layer
+            l1 = self.FeedForward(l0) #output layer
 
             #Error calculation
             error = targets - l1
@@ -53,6 +53,7 @@ class ToyNN(object):
             self.synapseWeights += np.dot(l0.T, delta)
 
 
+# Training data: a 1 in the first column directly correlates with a 1 in the output
 # training features
 features = np.array([   [0, 0, 1],
                         [0, 1, 1],
@@ -61,6 +62,9 @@ features = np.array([   [0, 0, 1],
 
 # training targets
 targets = np.array([ [0, 0, 1, 1] ]).T # 4x1 matrix
+
+# Seed random number generator
+np.random.seed(1)
 
 nn = ToyNN()
 print("Training neural network...")
@@ -72,7 +76,7 @@ print(targets)
 print("Expected output:")
 print(targets)
 print("\nOutput from training set after 10000 iterations:")
-print(nn.ForwardPropogation(features))
+print(nn.FeedForward(features))
 
 print("\n==============================\n")
 
@@ -85,4 +89,4 @@ print(newData)
 print("Expected output:")
 print(np.array([ [0, 0, 1] ]).T)
 print("\nOutput for new data not in the training set:")
-print(nn.ForwardPropogation(newData))
+print(nn.FeedForward(newData))
